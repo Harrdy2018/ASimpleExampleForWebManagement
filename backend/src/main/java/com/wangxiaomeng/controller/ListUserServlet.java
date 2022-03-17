@@ -31,7 +31,6 @@ public class ListUserServlet extends HttpServlet {
         List<User> users=userDAO.selectAllUser();
 
         // handle response
-        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         Result result = Result.success(users);

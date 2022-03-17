@@ -21,7 +21,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Display.vue')
   },
   {
-    path: '/add/list',
+    path: '/addSinglePersonInformation',
     name: 'ListForm',
     component: () => import('@/views/ListForm.vue')
   }

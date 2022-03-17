@@ -3,7 +3,7 @@
         <el-button color="#626aef" style="color: white" @click="handleAdd">Add</el-button>
         <el-button color="#626aef" plain>Add</el-button>
     </el-row>
-    <el-table :data="tableData" border stripe style="width: 100%" :row-class-name="tableRowClassName">
+    <el-table :data="tableData" border stripe style="width: 100%">
       <el-table-column prop="id" label="Id" width="200" />
       <el-table-column prop="name" label="Name" width="300" />
       <el-table-column prop="country" label="Country" width="200" />
@@ -15,85 +15,68 @@
         </template>
       </el-table-column>
     </el-table>
-    <hr/>
-    <h3>{{$store.state.count}}</h3>
-    <div>
-        <el-button @click="$store.commit('add')">+</el-button>
-        <el-button @click="$store.commit('reduce')">-</el-button>
-        <el-button @click="forTest">forTest</el-button>
-    </div>
 </template>
   
 <script lang="js">
 import { defineComponent, reactive, onMounted} from 'vue';
+import { useRouter, useRoute } from 'vue-router'
 import store from '@/store/index.ts'
 export default defineComponent({
     name: 'Display',
     setup () {
         const tableData = reactive([])
-        
+        const router = useRouter()
+
         const handleEdit = (index, row) => {
             console.log(index, row)
+            router.push({
+                path: "/addSinglePersonInformation",
+                query: row
+            })
         }
+
         const handleDelete = (index, row) => {
             console.log(index, row)
+            const response = fetch("http://127.0.0.1:8080/management/deleteUserById", {
+                method: 'post',
+                body: JSON.stringify({
+                    id: row.id
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                }).then(rsp=>{
+                    return rsp.json()
+                })
+            window.history.go()
         }
 
+        
         const handleAdd = () => {
             console.log("handleAdd")
-            window.location.href="/add/list"
-            history.pushState(null, null, "/query/list");
+            router.push("/addSinglePersonInformation")
         }
 
-        const tableRowClassName = ({
-            row,
-            rowIndex,
-        }) => {
-            console.log("tableRowClassName ", row, rowIndex)
-            if (rowIndex === 1) {
-                return 'warning-row'
-            } else if (rowIndex === 3) {
-                return 'success-row'
-            }
-            return ''
-        }
-
-        function forTest(){
-            console.log("forTest ",this)
-            console.log("forTest ",store)
-        }
-
-        const state = reactive({
-            hits:[]
-        })
-
-        onMounted(async ()=>{
+        onMounted(()=>{
             // production http://47.96.251.225:8080/management/list
             // dev        http://127.0.0.1:8080/management/list
-            const response = await fetch("http://127.0.0.1:8080/management/list").then(rsp=>{
-                console.log("rsp ",rsp);
+            fetch("http://127.0.0.1:8080/management/list")
+            .then(rsp=>{
                 return rsp.json()
+            }).then(temp=>{
+                tableData.push(...temp.data)
             })
-            console.log("start quest ",response)
-            tableData.push(...response.data)
         })
     
         return {
             tableData,
-            forTest,
             handleEdit,
             handleDelete,
-            tableRowClassName,
             handleAdd
         }
       }
     });
 </script>
 <style>
-    .el-table .warning-row {
-      color: red;
-    }
-    .el-table .success-row {
-      color: burlywood;
-    }
+  
 </style>
