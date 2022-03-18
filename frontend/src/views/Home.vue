@@ -41,6 +41,8 @@ export default defineComponent({
 
         const handleDelete = (index, row) => {
             console.log(index, row)
+            // production http://47.96.251.225:8080/management/deleteUserById
+            // dev        http://127.0.0.1:8080/management/deleteUserById
             const response = fetch("http://127.0.0.1:8080/management/deleteUserById", {
                 method: 'post',
                 body: JSON.stringify({

@@ -40,6 +40,8 @@ export default defineComponent({
         const labelPosition = ref('left')
 
         const insertUser = ()=>{
+            // production http://47.96.251.225:8080/management/insertUser
+            // dev        http://127.0.0.1:8080/management/insertUser
             const response = fetch("http://127.0.0.1:8080/management/insertUser", {
                 method: 'post',
                 body: JSON.stringify(formLabelAlign),
@@ -52,6 +54,8 @@ export default defineComponent({
         }
 
         const updateUser = ()=>{
+            // production http://47.96.251.225:8080/management/updateUserById
+            // dev        http://127.0.0.1:8080/management/updateUserById
             const response = fetch("http://127.0.0.1:8080/management/updateUserById", {
                 method: 'post',
                 body: JSON.stringify(formLabelAlign),
@@ -80,6 +84,8 @@ export default defineComponent({
 
         onMounted(()=>{
             if(route.query.isEditing == "true"){
+                // production http://47.96.251.225:8080/management/queryUserById
+                // dev        http://127.0.0.1:8080/management/queryUserById
                 const response = fetch("http://127.0.0.1:8080/management/queryUserById", {
                 method: 'post',
                 body: JSON.stringify({
