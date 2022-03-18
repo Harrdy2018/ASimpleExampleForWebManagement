@@ -49,6 +49,8 @@ export default defineComponent({
                     'Content-Type': 'application/json'
                 }
                 }).then(rsp=>{
+                    // 不能放在外面，会造成调到详情页面时，数据未刷新
+                    window.history.back();
                     return rsp.json()
                 })
         }
@@ -63,6 +65,7 @@ export default defineComponent({
                     'Content-Type': 'application/json'
                 }
                 }).then(rsp=>{
+                    window.history.back();
                     return rsp.json()
                 })
         }
@@ -75,7 +78,6 @@ export default defineComponent({
                 console.log("新增状态提交---插入")
                 insertUser()
             }
-            window.history.back();
         }
 
         const onCancel = () => {
