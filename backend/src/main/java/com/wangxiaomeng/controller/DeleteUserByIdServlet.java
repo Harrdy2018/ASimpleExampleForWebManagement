@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = "/deleteUserById")
-public class DeleteUserServlet extends HttpServlet{
+public class DeleteUserByIdServlet extends HttpServlet{
     private UserDAO userDAO;
 
     @Override

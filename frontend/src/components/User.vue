@@ -15,7 +15,7 @@
       <el-input v-model="formLabelAlign.email" />
     </el-form-item>
     <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
+        <el-button type="primary" @click="onSubmit">Submit</el-button>
         <el-button type="primary" @click="onCancel">Cancel</el-button>
         <el-button type="primary" @click="resetForm">Reset</el-button>
       </el-form-item>
@@ -24,11 +24,10 @@
   
 <script lang="js">
 import { defineComponent, reactive, onMounted, ref} from 'vue';
-import { FormInstance } from 'element-plus'
-import store from '@/store/index.ts'
+import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 export default defineComponent({
-    name: 'ListForm',
+    name: 'User',
     setup(){
         const route = useRoute()
         const formLabelAlign = reactive({
@@ -39,8 +38,9 @@ export default defineComponent({
         })
 
         const labelPosition = ref('left')
-        const createSinglePersonInformation = ()=>{
-            const response = fetch("http://127.0.0.1:8080/management/addSinglePersonInformation", {
+
+        const insertUser = ()=>{
+            const response = fetch("http://127.0.0.1:8080/management/insertUser", {
                 method: 'post',
                 body: JSON.stringify(formLabelAlign),
                 headers: {
@@ -50,16 +50,28 @@ export default defineComponent({
                     return rsp.json()
                 })
         }
+
+        const updateUser = ()=>{
+            const response = fetch("http://127.0.0.1:8080/management/updateUserById", {
+                method: 'post',
+                body: JSON.stringify(formLabelAlign),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                }).then(rsp=>{
+                    return rsp.json()
+                })
+        }
+
         const onSubmit = () => {
-            if(formLabelAlign.id){
-                console.log("edit")
+            if(route.query.isEditing == "true"){
+                console.log("编辑状态提交---更新")
+                updateUser()
             }else{
-                createSinglePersonInformation()
+                console.log("新增状态提交---插入")
+                insertUser()
             }
-                
-            setTimeout(() => {
-                window.history.back(); 
-            }, 500);
+            window.history.back();
         }
 
         const onCancel = () => {
@@ -67,12 +79,23 @@ export default defineComponent({
         }
 
         onMounted(()=>{
-            console.log(formLabelAlign)
-            if(route.query.id){
-                formLabelAlign.name=route.query.name
-                formLabelAlign.country=route.query.country
-                formLabelAlign.email=route.query.email
-                formLabelAlign.id=route.query.id
+            if(route.query.isEditing == "true"){
+                const response = fetch("http://127.0.0.1:8080/management/queryUserById", {
+                method: 'post',
+                body: JSON.stringify({
+                    id: parseInt(route.params.id)
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                }).then(rsp=>{
+                    return rsp.json()
+                }).then(data=>{
+                    formLabelAlign.id=data.data.id
+                    formLabelAlign.name=data.data.name
+                    formLabelAlign.country=data.data.country
+                    formLabelAlign.email=data.data.email
+                })
             }
         })
 

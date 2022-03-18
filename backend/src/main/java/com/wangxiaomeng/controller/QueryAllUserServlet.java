@@ -1,6 +1,8 @@
 package com.wangxiaomeng.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wangxiaomeng.dao.UserDAO;
+import com.wangxiaomeng.model.Result;
 import com.wangxiaomeng.model.User;
 
 import javax.servlet.RequestDispatcher;
@@ -10,9 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(value = "/edit")
-public class EditFormServlet extends HttpServlet {
+@WebServlet(value = "/queryAllUser")
+public class QueryAllUserServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
@@ -22,12 +27,13 @@ public class EditFormServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("execute showEditForm function");
-        int id=Integer.parseInt(request.getParameter("id"));
+        System.out.println("execute ListUserServlet");
+        List<User> users=userDAO.selectAllUser();
 
-        User existingUser=userDAO.selectUser(id);
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/WEB-INF/user-form.jsp");
-        request.setAttribute("user", existingUser);
-        dispatcher.forward(request,response);
+        // handle response
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        Result result = Result.success(users);
+        response.getWriter().write(JSONObject.toJSONString(result));
     }
 }
