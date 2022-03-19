@@ -2,9 +2,31 @@
   <div id="nav">
     <router-link to="/">WebManageSystem</router-link>
   </div>
-  <router-view/>
+  <router-view v-if="state.showRouter"></router-view>
 </template>
+<script>
+import { defineComponent, nextTick, provide, reactive, ref } from 'vue'
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      showRouter: true
+    })
 
+    function reload() {
+      state.showRouter = false
+      nextTick(()=>{
+        state.showRouter = true
+      })
+    }
+
+    provide('reload', reload)
+
+    return {
+      state
+    }
+  }
+})
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

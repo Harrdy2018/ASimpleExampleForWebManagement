@@ -17,7 +17,7 @@
 </template>
   
 <script lang="js">
-import { defineComponent, reactive, onMounted} from 'vue'
+import { defineComponent, reactive, onMounted, inject} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 export default defineComponent({
@@ -25,6 +25,7 @@ export default defineComponent({
     setup () {
         const tableData = reactive([])
         const router = useRouter()
+        const reload = inject('reload')
 
         const handleEdit = (index, row) => {
             console.log(index, row)
@@ -53,8 +54,11 @@ export default defineComponent({
                 }
                 }).then(rsp=>{
                     return rsp.json()
+                }).then(resp => {
+                    if (resp.code === 200) {
+                        reload()
+                    }
                 })
-            window.history.go()
         }
 
         
