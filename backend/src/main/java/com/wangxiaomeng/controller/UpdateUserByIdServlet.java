@@ -6,6 +6,8 @@ import com.wangxiaomeng.model.Result;
 import com.wangxiaomeng.model.ResultCode;
 import com.wangxiaomeng.model.User;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/updateUserById")
 public class UpdateUserByIdServlet extends HttpServlet {
+    private static Logger logger = (Logger) LogManager.getLogger(UpdateUserByIdServlet.class.getName());
+
     private UserDAO userDAO;
 
     @Override
@@ -25,7 +29,7 @@ public class UpdateUserByIdServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("execute updateUser function");
+        logger.info("start UpdateUserByIdServlet");
         String method = request.getMethod();
         Result result = null;
         if ("POST".equals(method) || "PUT".equals(method)) {
@@ -45,5 +49,6 @@ public class UpdateUserByIdServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.getWriter().write(JSONObject.toJSONString(result));
+        logger.info("end UpdateUserByIdServlet");
     }
 }

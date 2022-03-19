@@ -6,6 +6,8 @@ import com.wangxiaomeng.model.Result;
 import com.wangxiaomeng.model.ResultCode;
 import com.wangxiaomeng.model.User;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/insertUser")
 public class InsertUserServlet extends HttpServlet {
+    private static Logger logger = (Logger)LogManager.getLogger(InsertUserServlet.class.getName());
+
     private UserDAO userDAO;
 
     @Override
@@ -25,6 +29,7 @@ public class InsertUserServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("start InsertUserServlet");
         Result result = null;
         if ("POST".equals(request.getMethod())) {
             if ("application/json".equals(request.getContentType())){
@@ -40,5 +45,6 @@ public class InsertUserServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         response.getWriter().write(JSONObject.toJSONString(result));
+        logger.info("end InsertUserServlet");
     }
 }

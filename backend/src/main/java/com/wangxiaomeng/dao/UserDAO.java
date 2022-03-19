@@ -2,6 +2,8 @@ package com.wangxiaomeng.dao;
 
 import com.wangxiaomeng.model.User;
 import com.wangxiaomeng.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    private static Logger logger = (Logger) LogManager.getLogger(UserDAO.class.getName());
+
     // define sql statements
     private static final String INSERT_USERS_SQL="insert into users"+" (name, email, country) values "+" (?, ?, ?);";
     private static final String SELECT_USER_BY_ID="select id,name,email,country from users where id =?;";
@@ -24,12 +28,12 @@ public class UserDAO {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2,user.getEmail());
             preparedStatement.setString(3,user.getCountry());
-            System.out.println(preparedStatement);
+            logger.info(preparedStatement);
 
             preparedStatement.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         }
     }
 
@@ -39,7 +43,7 @@ public class UserDAO {
         try (Connection connection=JDBCUtils.getConnection();
              PreparedStatement preparedStatement=connection.prepareStatement(SELECT_USER_BY_ID)){
             preparedStatement.setInt(1,id);
-            System.out.println(preparedStatement);
+            logger.info(preparedStatement);
 
             ResultSet resultSet=preparedStatement.executeQuery();
             while(resultSet.next()){
@@ -51,7 +55,7 @@ public class UserDAO {
             }
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         }
         return user;
     }
@@ -62,7 +66,7 @@ public class UserDAO {
 
         try (Connection connection=JDBCUtils.getConnection();
              PreparedStatement preparedStatement=connection.prepareStatement(SELECT_ALL_USERS)){
-            System.out.println(preparedStatement);
+            logger.info(preparedStatement);
 
             ResultSet rs=preparedStatement.executeQuery();
             while(rs.next()){
@@ -74,7 +78,7 @@ public class UserDAO {
             }
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         }
         return users;
     }
@@ -85,12 +89,12 @@ public class UserDAO {
         try (Connection connection=JDBCUtils.getConnection();
              PreparedStatement preparedStatement=connection.prepareStatement(DELETE_USERS_SQL)){
             preparedStatement.setInt(1, id);
-            System.out.println(preparedStatement);
+            logger.info(preparedStatement);
 
             rowDeleted=preparedStatement.executeUpdate() > 0;
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         }
         return rowDeleted;
     }
@@ -104,12 +108,12 @@ public class UserDAO {
             preparedStatement.setString(2,user.getEmail());
             preparedStatement.setString(3,user.getCountry());
             preparedStatement.setInt(4,user.getId());
-            System.out.println(preparedStatement);
+            logger.info(preparedStatement);
 
             rowUpdated=preparedStatement.executeUpdate() > 0;
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getLocalizedMessage());
+            logger.error(e.getLocalizedMessage());
         }
         return rowUpdated;
     }
