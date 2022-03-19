@@ -20,6 +20,9 @@
 import { defineComponent, reactive, onMounted, inject} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import api from "@/api"
+
+const hostDomain = window.localStorage.getItem("hostDomain")
 export default defineComponent({
     name: 'Home',
     setup () {
@@ -41,10 +44,7 @@ export default defineComponent({
         }
 
         const handleDelete = (index, row) => {
-            console.log(index, row)
-            // production http://47.96.251.225:8080/management/deleteUserById
-            // dev        http://127.0.0.1:8080/management/deleteUserById
-            const response = fetch("http://127.0.0.1:8080/management/deleteUserById", {
+            const response = fetch(`${hostDomain}${api.deleteUserById}`, {
                 method: 'post',
                 body: JSON.stringify({
                     id: row.id
@@ -63,14 +63,11 @@ export default defineComponent({
 
         
         const handleAdd = () => {
-            console.log("handleAdd")
             router.push("/insert/user")
         }
 
         onMounted(()=>{
-            // production http://47.96.251.225:8080/management/queryAllUser
-            // dev        http://127.0.0.1:8080/management/queryAllUser
-            fetch("http://127.0.0.1:8080/management/queryAllUser")
+            fetch(`${hostDomain}${api.queryAllUser}`)
             .then(rsp=>{
                 return rsp.json()
             }).then(temp=>{

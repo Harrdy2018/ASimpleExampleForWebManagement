@@ -1,11 +1,12 @@
 {
-  "name": "frontend",
+  "name": "webmanagesystem",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:development": "vue-cli-service serve",
+    "build:production": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "build:test": "vue-cli-service build --mode test"
   },
   "dependencies": {
     "element-plus": "^2.1.3",
