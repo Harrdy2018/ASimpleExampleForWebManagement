@@ -67,10 +67,11 @@ export default defineComponent({
         }
 
         onMounted(()=>{
-            fetch(`${hostDomain}${api.queryAllUser}`)
-            .then(rsp=>{
-                return rsp.json()
-            }).then(temp=>{
+            fetch(`${hostDomain}${api.queryAllUser}`, {
+                method: 'get'
+            })
+            .then(rsp=>rsp.json())
+            .then(temp=>{
                 tableData.push(...temp.data)
             })
         })

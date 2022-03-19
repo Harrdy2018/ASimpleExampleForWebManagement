@@ -3,6 +3,7 @@ package com.wangxiaomeng.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.wangxiaomeng.dao.UserDAO;
 import com.wangxiaomeng.model.Result;
+import com.wangxiaomeng.model.ResultCode;
 import com.wangxiaomeng.model.User;
 import org.apache.commons.io.IOUtils;
 
@@ -27,16 +28,17 @@ public class QueryUserByIdServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("execute ListUserServlet");
-        User user = null;
-        if ("application/json".equals(request.getContentType())){
-            User temp= JSONObject.parseObject(IOUtils.toString(request.getInputStream(), "utf-8"), User.class);
-            user = userDAO.selectUser(temp.getId());
+        Result result = null;
+        if ("GET".equals(request.getMethod())) {
+            User user = userDAO.selectUser(Integer.parseInt(request.getParameter("id")));
+            result = Result.success(user);
+        } else {
+            result = Result.failure(ResultCode.REQUEST_METHOD_INVALID);
         }
 
         // handle response
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        Result result = Result.success(user);
         response.getWriter().write(JSONObject.toJSONString(result));
     }
 }

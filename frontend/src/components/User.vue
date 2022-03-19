@@ -84,17 +84,11 @@ export default defineComponent({
 
         onMounted(()=>{
             if(route.query.isEditing == "true"){
-                const response = fetch(`${hostDomain}${api.queryUserById}`, {
-                method: 'post',
-                body: JSON.stringify({
-                    id: parseInt(route.params.id)
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                }).then(rsp=>{
-                    return rsp.json()
-                }).then(data=>{
+                const response = fetch(`${hostDomain}${api.queryUserById}?id=${route.params.id}`, {
+                method: 'get'
+                })
+                .then(rsp=>rsp.json())
+                .then(data=>{
                     formLabelAlign.id=data.data.id
                     formLabelAlign.name=data.data.name
                     formLabelAlign.country=data.data.country

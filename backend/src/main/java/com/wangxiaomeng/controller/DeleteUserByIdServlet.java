@@ -4,6 +4,7 @@ package com.wangxiaomeng.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.wangxiaomeng.dao.UserDAO;
 import com.wangxiaomeng.model.Result;
+import com.wangxiaomeng.model.ResultCode;
 import com.wangxiaomeng.model.User;
 import org.apache.commons.io.IOUtils;
 
@@ -26,15 +27,20 @@ public class DeleteUserByIdServlet extends HttpServlet{
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("execute deleteUser function");
-        if ("application/json".equals(request.getContentType())){
-            User user= JSONObject.parseObject(IOUtils.toString(request.getInputStream(), "utf-8"), User.class);
-            userDAO.deleteUser(user.getId());
+        Result result = null;
+        if ("POST".equals(request.getMethod())) {
+            if ("application/json".equals(request.getContentType())){
+                User user= JSONObject.parseObject(IOUtils.toString(request.getInputStream(), "utf-8"), User.class);
+                userDAO.deleteUser(user.getId());
+                result = Result.success();
+            }
+        } else {
+            result = Result.failure(ResultCode.REQUEST_METHOD_INVALID);
         }
 
         // handle response
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        Result result = Result.success();
         response.getWriter().write(JSONObject.toJSONString(result));
     }
 }
