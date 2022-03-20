@@ -1,6 +1,7 @@
 package com.wangxiaomeng.dao;
 
 import com.wangxiaomeng.model.User;
+import com.wangxiaomeng.utils.DruidUtils;
 import com.wangxiaomeng.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -64,7 +65,7 @@ public class UserDAO {
     public List<User> selectAllUser(){
         List<User> users=new ArrayList<>();
 
-        try (Connection connection=JDBCUtils.getConnection();
+        try (Connection connection=DruidUtils.getConnection();
              PreparedStatement preparedStatement=connection.prepareStatement(SELECT_ALL_USERS)){
             logger.info(preparedStatement);
 
