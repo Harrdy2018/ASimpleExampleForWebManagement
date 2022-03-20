@@ -15,7 +15,7 @@ public class CORSFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("start CORSFilter init " + System.getProperty("catalina.home"));
+        logger.info("enter CORSFilter init!");
     }
 
     @Override
