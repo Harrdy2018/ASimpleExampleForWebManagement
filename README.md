@@ -76,3 +76,28 @@ taskkill -F /PID 3356
 # 启动服务
 net start mysql
 ```
+## ```sql```相关
+```sql
+2、查看整个表的结构
+mysql> show create table tb_user;
+3、修改现有表的注释
+mysql> alter table tb_user comment="这是用户列表";
+4、查看表的注释
+mysql> select table_name,table_comment from information_schema.tables where table_name='tb_user';
+5、修改现有列，加上注释
+mysql> alter table tb_user modify column gender varchar(30) comment '用户性别~';
+6、 查看所有列的注释
+mysql> show full columns from tb_user;
+7、查看指定列的注释
+mysql> select column_name, column_comment from information_schema.columns where table_name='tb_user';
+```
+* 表名和字段名用单引号和双引号都不对，要么都不用引号，要么就用反引号
+```sql
+create table `tb_user`(
+    `id` int auto_increment comment '用户ID',
+    `username` varchar(20) comment '用户名',
+    `password` varchar(20) comment '用户密码',
+    `gender` varchar(20) comment '用户性别',
+    `addr` varchar(20) comment '用户地址',
+    primary key(`id`)) comment='这是用户表';
+```
