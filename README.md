@@ -53,6 +53,13 @@ tomcat部署后台代码暴露8080端口
 location  /api/{
     proxy_pass http://127.0.0.1:8080;
 }
+
+# 当用户请求 http://localhost/example 时，这里的 $uri 就是 /example
+# try_files 会到/root也就是项目代码安装目录查找该文件，如果能找到就直接把这个文件的内容发送给用户；如果找不到继续看 root/example/ 目录
+# 还是找不到发起请求 http://localhost/index.php?$uname=oppo
+location /{
+    try_files $uri $uri/ /index.php?$uname=oppo;
+}
 ````
 ## 数据库修改最大连接数
 ```sh
