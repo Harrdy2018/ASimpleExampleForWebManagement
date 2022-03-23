@@ -60,6 +60,11 @@ location  /api/{
 location /{
     try_files $uri $uri/ /index.php?$uname=oppo;
 }
+
+# 解决 vue 部署之后404错误
+location /{
+    try_files $uri $uri/ /index.html;
+}
 ````
 ## 数据库修改最大连接数
 ```sh
