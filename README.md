@@ -16,6 +16,44 @@ nginx -s reload
 * 使用拦截器
 ```sh
 ```
+## ```nginx```反向代理解决跨域请求
+* 需求
+```sh
+nginx暴露8085端口
+tomcat部署后台代码暴露8080端口
+将 http://47.96.251.225:8085/api/management/queryAllUser 代理到 http://47.96.251.225:8080/management/queryAllUser
+```
+* nginx配置
+```sh
+ server {
+        listen       8085;
+        listen       [::]:8085;
+        server_name  _;
+        root         /home/www/dist/;
+        include /etc/nginx/default.d/*.conf;
+        #
+        # 如果配置 location /api/
+        # 例如URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080/xxx
+        #
+        # 如果配置 location /api
+        # 则URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080//xxx
+        #
+        location /api/{
+             proxy_pass http://127.0.0.1:8080/;
+        }
+        error_page 404 /404.html;
+        location = /404.html {
+        }
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+        }
+    }
+
+# 注意 例如URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080
+location  /api/{
+    proxy_pass http://127.0.0.1:8080;
+}
+````
 ## 数据库修改最大连接数
 ```sh
 # 显示最大连接数
@@ -75,6 +113,13 @@ mysqld.exe                    3356 Services                   0     42,228 K
 taskkill -F /PID 3356
 # 启动服务
 net start mysql
+```
+* centos
+```sh
+# l 表示监听 n 表示不解析域名 t 表示tcp p 表示进程ID
+[root@ECS ~]# netstat -lntp
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp6       0      0 :::8080                 :::*                    LISTEN      20745/java
 ```
 ## ```sql```相关
 ```sql

@@ -20,16 +20,19 @@ public class CORSFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
-        logger.info("start CORSFilter doFilter");
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse)resp;
         logger.info(request.getMethod());
+        logger.info("start CORSFilter doFilter. The URL is " + request.getRequestURL());
+        logger.info("use nginx to solve the CORS problem");
+        /*
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, HEAD, DELETE, PUT");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Accept, Origin, User-Agent, Content-Range, Content-Disposition, Content-Description");
         if("OPTIONS".equals(request.getMethod())){
             return;
         }
+        */
         chain.doFilter(request, response);
     }
 
