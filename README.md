@@ -62,6 +62,8 @@ location /{
 }
 
 # 解决 vue 部署之后404错误
+# vue 路由必须先加载 index.html 或者 xx.js 才能识别到路由 ???
+# vue 在访问页面的时候只能访问默认页面和通过项目内跳转其他页面 ???
 location /{
     try_files $uri $uri/ /index.html;
 }
