@@ -153,4 +153,47 @@ location ^~ /abc {
 ```sh
 # 用于定义一个 Location 块，且该块不能被外部 Client 所访问，只能被 Nginx 内部配置指令所访问，比如 try_files or error_page
 ```
+### exampleA
+* 准备文件
+```sh
+[root@ECS www]# cat /home/www/dev/index.html
+this is /home/www/dev/index.html
+[root@ECS www]# cat /home/www/test/index.html
+this is /home/www/test/index.html
+```
+* nginx配置
+```sh
+location / {
+    root /home/www/dev;
+    index index.php index.html;
+}
 
+# \. 转意符号只匹配点号，因为单独使用.号是匹配除换行符以外的任意字符
+location ~ \.html$ {
+    root /home/www/test;
+}
+
+发起请求 http://47.96.251.225:8085/
+   那么首先会访问到“/”的location，结合root与index指令，会先判断/home/www/dev/index.php是否存在
+   如果不，则接着查看/home/www/dev/index.html
+   如果存在，则使用http://47.96.251.225:8085/index.html发起内部重定向
+   就像从客户端再一次发起请求一样
+       Nginx会再一次搜索location，毫无疑问匹配到第二个~ \.html$，从而访问到/home/www/test/index.html
+```
+#### ```rewrite```
+```sh
+# 发起请求 http://47.96.251.225:8085/api/management/queryAllUser
+     # 回应客户端 Location: http://www.baidu.com
+           # 客户端发起请求 http://www.baidu.com
+# permanent--->301 Moved Permanently
+location /api/ {
+    proxy_pass http://127.0.0.1:8080/;
+    rewrite ^/(.*) http://www.baidu.com permanent;
+}
+
+# redirect--->302 Moved Temporarily
+location /api/ {
+    proxy_pass http://127.0.0.1:8080/;
+    rewrite ^/(.*) http://www.baidu.com redirect;
+}
+```
