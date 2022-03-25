@@ -26,6 +26,7 @@ hs_err_pid*
 # frontend
 /frontend/node_modules
 /frontend/dist
+/frontend/webmanage
 /frontend/package-lock.json
 
 # backend

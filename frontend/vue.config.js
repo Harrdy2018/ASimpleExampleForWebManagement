@@ -1,4 +1,7 @@
 module.exports = {
+    outputDir: 'webmanage', // 项目部署输出目录
+    // 如果开发环境要部署在根目录 process.env.NODE_ENV === 'production' ? '/webmanage/' : '/'
+    publicPath: '/webmanage/', // ???
     lintOnSave: false, // 关闭eslint检测
     devServer: {
       host: '127.0.0.1',

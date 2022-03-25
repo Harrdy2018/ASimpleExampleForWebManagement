@@ -25,7 +25,9 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  // 如果开发环境要部署在根目录 process.env.NODE_ENV === 'production' ? '/webmanage/' : '/'
+  // 应用托管在域名 https://example.com/webmanage/
+  history: createWebHistory('/webmanage/'),
   routes
 })
 

@@ -3,9 +3,9 @@
 ## 部署到服务器
 ```sh
 # 前端打包
-scp -r /a/ASimpleExampleForWebManagement/frontend/dist/ root@47.96.251.225:/home/www/
+scp -r /a/ASimpleExampleForWebManagement/frontend/webmanage/ root@47.96.251.225:/usr/local/production/frontend/apache-tomcat-9.0.37/webapps/
 # 后台打包
-scp /a/ASimpleExampleForWebManagement/backend/target/management.war root@47.96.251.225:/usr/local/apache-tomcat-9.0.37/webapps/
+scp /a/ASimpleExampleForWebManagement/backend/target/management.war root@47.96.251.225:/usr/local/production/backend/apache-tomcat-9.0.37/webapps/
 # 重启nginx
 nginx -s reload
 ```
@@ -16,44 +16,8 @@ nginx -s reload
 * 使用拦截器
 ```sh
 ```
-## ```nginx```反向代理解决跨域请求
-* 需求
+## ```nginx```配置
 ```sh
-nginx暴露8085端口
-tomcat部署后台代码暴露8080端口
-将 http://47.96.251.225:8085/api/management/queryAllUser 代理到 http://47.96.251.225:8080/management/queryAllUser
-```
-* nginx配置
-```sh
- server {
-        listen       8085;
-        listen       [::]:8085;
-        server_name  _;
-        root         /home/www/dist/;
-        include /etc/nginx/default.d/*.conf;
-        #
-        # 如果配置 location /api/
-        # 例如URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080/xxx
-        #
-        # 如果配置 location /api
-        # 则URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080//xxx
-        #
-        location /api/{
-             proxy_pass http://127.0.0.1:8080/;
-        }
-        error_page 404 /404.html;
-        location = /404.html {
-        }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-        }
-    }
-
-# 注意 例如URI为 /api/xxx 匹配到路径之后代理到 http://127.0.0.1:8080
-location  /api/{
-    proxy_pass http://127.0.0.1:8080;
-}
-
 # 当用户请求 http://localhost/example 时，这里的 $uri 就是 /example
 # try_files 会到/root也就是项目代码安装目录查找该文件，如果能找到就直接把这个文件的内容发送给用户；如果找不到继续看 root/example/ 目录
 # 还是找不到发起请求 http://localhost/index.php?$uname=oppo
@@ -159,4 +123,13 @@ create table `tb_user`(
     `gender` varchar(20) comment '用户性别',
     `addr` varchar(20) comment '用户地址',
     primary key(`id`)) comment='这是用户表';
+```
+## ```tar```命令
+```sh
+# 将tar.gz文件解压到指定目录
+# -x extract files from an archive 从压缩包里提取文件
+# -z 是否需要用gzip压缩
+# -v 压缩的过程中显示档案
+# -f 置顶文档名，在f后面立即接文件名，不能再加参数
+tar -zxvf apache-tomcat-9.0.37.tar.gz --directory=/usr/local/production/backend
 ```
