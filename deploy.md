@@ -1,4 +1,4 @@
-### 项目部署方式
+### 项目部署方式一
 #### 容器
 * nginx:8085(前端)+tomcat:8080(后台)
 ```sh
@@ -197,3 +197,89 @@ location /api/ {
     rewrite ^/(.*) http://www.baidu.com redirect;
 }
 ```
+### 项目部署方式二
+#### 容器
+```sh
+                    tomcat:8090(前台)
+nginx:8085(中转)
+                    tomcat:8080(后台)
+
+# 前端代码打包
+[root@ECS webapps]# tree /usr/local/production/frontend/apache-tomcat-9.0.37/webapps
+/usr/local/production/frontend/apache-tomcat-9.0.37/webapps
+├── WEB-INF
+│   └── web.xml
+└── webmanage # 前台代码打包的目录(可以自己设定)
+    ├── # 前台代码打包的文件
+
+[root@ECS webapps]# cat ./WEB-INF/web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+           http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1" metadata-complete="true">
+  <display-name>Router for Tomcat</display-name>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/index.html</location>
+  </error-page>
+</web-app>
+
+# 后台代码打包
+/usr/local/production/backend/apache-tomcat-9.0.37/webapps/
+```
+#### nginx配置
+```sh
+upstream frontend {
+    server 127.0.0.1:8090;
+}
+
+upstream backend {
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen       8085;
+    listen       [::]:8085;
+    server_name  _;
+    include /etc/nginx/default.d/*.conf;
+    location /webmanage {
+        proxy_pass http://frontend;
+    }
+
+    location ~* ^/webmanage/.*\.(gif|jpg|jpeg|png|css|js|html|ico)$ {
+        proxy_pass http://frontend;
+    }
+
+    location /api/ {
+        proxy_pass http://backend/;
+    }
+
+    error_page 404 /404.html;
+        location = /404.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+    }
+}
+```
+#### 请求过程
+```sh
+前端发起请求 http://47.96.251.225:8085/webmanage/
+    匹配到location规则
+        location /webmanage {
+            proxy_pass http://frontend;
+        }
+    upstream到前端tomcat(8090)
+        前端tomcat(8090)收到请求  URL=http://127.0.0.1:8090/management/
+        请求页面的同时script标签发起请求，请求静态文件，形成页面
+        页面初次刷新在前端tomcat(8090)发起查询请求到nginx(8050) http://47.96.251.225:8085/api/management/queryAllUser
+            匹配location规则
+                location /api/ {
+                    proxy_pass http://backend/;
+                }
+                upstream到 URL=http://127.0.0.1:8080/management/queryAllUser 发起请求
+                        tomcat收到请求 URL=http://127.0.0.1:8080/management/queryAllUser
+    ```
+

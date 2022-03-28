@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangxiaomeng.mapper.AccountInfoMapper">
+    <select id="queryUserById" resultType="com.wangxiaomeng.model.AccountInfo">
+        select * from tb_account_info where id = #{id}
+    </select>
+
+    <insert id="addUser" parameterType="com.wangxiaomeng.model.AccountInfo">
+        insert into tb_account_info
+        (username, password, sex, email, introduce)
+        values
+        (#{username}, #{password}, #{sex}, #{email}, #{introduce})
+    </insert>
+</mapper>

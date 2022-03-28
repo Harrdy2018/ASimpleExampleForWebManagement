@@ -133,3 +133,15 @@ create table `tb_user`(
 # -f 置顶文档名，在f后面立即接文件名，不能再加参数
 tar -zxvf apache-tomcat-9.0.37.tar.gz --directory=/usr/local/production/backend
 ```
+## 设计用户登录信息表
+```sql
+drop table if exists `tb_account_info`;
+create table `tb_account_info`(
+    `id` int(11) not null auto_increment comment '用户ID',
+    `username` varchar(20) default null comment '用户名',
+    `password` varchar(20) default null comment '用户密码',
+    `sex` int(2) default null comment '用户性别:0表示男生,1表示女生',
+    `email` varchar(20) default null comment '用户邮箱',
+    `introduce` varchar(500) default null comment '用户简单介绍',
+    primary key(`id`)) engine=InnoDB auto_increment=1000 default charset=utf8 comment='这是登录用户信息表';
+```
