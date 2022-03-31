@@ -21,4 +21,12 @@ public class AccountInfoDao {
         sqlSession.close();
         return accountInfo;
     }
+
+    public AccountInfo queryUserByUsernameAndPassword(String username, String password) {
+        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
+        AccountInfo accountInfo = accountInfoMapper.queryUserByUsernameAndPassword(username, password);
+        sqlSession.close();
+        return accountInfo;
+    }
 }

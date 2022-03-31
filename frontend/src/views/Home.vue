@@ -1,4 +1,7 @@
 <template>
+    <div>
+        <Account></Account>
+    </div>
     <el-row>
         <el-button color="#626aef" style="color: white" @click="handleAdd">Add</el-button>
     </el-row>
@@ -17,6 +20,7 @@
 </template>
   
 <script lang="js">
+import Account from '@/components/Account.vue'
 import { defineComponent, reactive, onMounted, inject} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
@@ -25,6 +29,9 @@ import api from "@/api"
 const hostDomain = window.localStorage.getItem("hostDomain")
 export default defineComponent({
     name: 'Home',
+    components: {
+        Account
+    },
     setup () {
         const tableData = reactive([])
         const router = useRouter()

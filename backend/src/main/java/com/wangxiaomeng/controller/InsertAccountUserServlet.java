@@ -22,7 +22,7 @@ public class InsertAccountUserServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("/insertAccountUser");
-        accountInfoDao.insertUser("一个人的夜", "qw12134",
+        accountInfoDao.insertUser("lukang", "qw12134",
                 0, "10232323@qq.com", "我是一个老实人");
     }
 }

@@ -5,6 +5,10 @@ import org.apache.ibatis.annotations.Param;
 
 public interface AccountInfoMapper {
     public AccountInfo queryUserById(int id);
+
+    public AccountInfo queryUserByUsernameAndPassword(@Param("username") String username,
+                                                      @Param("password") String password);
+
     public void addUser(@Param("username") String username,
                         @Param("password") String password,
                         @Param("sex") int sex,

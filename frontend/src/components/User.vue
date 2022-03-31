@@ -83,6 +83,7 @@ export default defineComponent({
         }
 
         onMounted(()=>{
+            console.log(route)
             if(route.query.isEditing == "true"){
                 const response = fetch(`${hostDomain}${api.queryUserById}?id=${route.params.id}`, {
                 method: 'get'

@@ -1,6 +1,7 @@
 package com.wangxiaomeng.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangxiaomeng.dao.UserDAO;
 import com.wangxiaomeng.model.Result;
 import com.wangxiaomeng.model.ResultCode;
@@ -41,7 +42,10 @@ public class QueryAllUserServlet extends HttpServlet {
         // handle response
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.getWriter().write(JSONObject.toJSONString(result));
+
+        // 使用jackson库进行序列化
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.getWriter().write(objectMapper.writeValueAsString(result));
         logger.info("end QueryAllUserServlet");
     }
 }

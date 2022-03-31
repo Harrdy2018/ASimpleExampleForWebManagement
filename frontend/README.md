@@ -88,4 +88,6 @@ fetch('http://localhost:3000/fdata', {
 ```sh
 == # 会先做类型转换,再判断值的大小
 === # 强等于,类型和值必须都相等
+
+useRouter(跳转), useRoute(获取路由参数)
 ```
