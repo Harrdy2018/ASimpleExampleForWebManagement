@@ -1,22 +1,28 @@
 <template>
-    <div>
-        <Account></Account>
+    <div class="outer" style="height: 100%;">
+        <div class="accountInfo" style="height:130px">
+            <Account></Account>
+        </div>
+        <div class="tableList" style="height: 70%;display: flex;justify-content: center;">
+            <div>
+                <el-row>
+                    <el-button color="#626aef" style="color: white" @click="handleAdd">Add</el-button>
+                </el-row>
+                <el-table :data="tableData" border stripe style="width: 100%">
+                  <el-table-column prop="id" label="Id" width="200" />
+                  <el-table-column prop="name" label="Name" width="300" />
+                  <el-table-column prop="country" label="Country" width="200" />
+                  <el-table-column prop="email" label="Email" width="300"/>
+                  <el-table-column label="Operations" width="400">
+                    <template #default="scope">
+                      <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                      <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+            </div>
+        </div>
     </div>
-    <el-row>
-        <el-button color="#626aef" style="color: white" @click="handleAdd">Add</el-button>
-    </el-row>
-    <el-table :data="tableData" border stripe style="width: 100%">
-      <el-table-column prop="id" label="Id" width="200" />
-      <el-table-column prop="name" label="Name" width="300" />
-      <el-table-column prop="country" label="Country" width="200" />
-      <el-table-column prop="email" label="Email" width="300"/>
-      <el-table-column label="Operations">
-        <template #default="scope">
-          <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
 </template>
   
 <script lang="js">
