@@ -1,25 +1,29 @@
 <template>
-    <el-form
-    ref="ruleFormRef"
-    :label-position="labelPosition"
-    label-width="100px"
-    :model="formLabelAlign"
-    style="max-width: 460px">
-    <el-form-item label="Name">
-      <el-input v-model="formLabelAlign.name" />
-    </el-form-item>
-    <el-form-item label="Country">
-      <el-input v-model="formLabelAlign.country" />
-    </el-form-item>
-    <el-form-item label="Email">
-      <el-input v-model="formLabelAlign.email" />
-    </el-form-item>
-    <el-form-item>
-        <el-button type="primary" @click="onSubmit">Submit</el-button>
-        <el-button type="primary" @click="onCancel">Cancel</el-button>
-        <el-button type="primary" @click="resetForm">Reset</el-button>
-      </el-form-item>
-  </el-form>
+    <div class="makeCenter">
+        <div>
+            <el-form
+            ref="ruleFormRef"
+            :label-position="labelPosition"
+            label-width="100px"
+            :model="formLabelAlign"
+            style="max-width: 460px">
+            <el-form-item label="Name">
+              <el-input v-model="formLabelAlign.name" />
+            </el-form-item>
+            <el-form-item label="Country">
+              <el-input v-model="formLabelAlign.country" />
+            </el-form-item>
+            <el-form-item label="Email">
+              <el-input v-model="formLabelAlign.email" />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">Submit</el-button>
+                <el-button type="primary" @click="onCancel">Cancel</el-button>
+                <el-button type="primary" @click="resetForm">Reset</el-button>
+              </el-form-item>
+          </el-form>
+        </div>
+    </div>
 </template>
   
 <script lang="js">
@@ -115,5 +119,10 @@ export default defineComponent({
 })
 </script>
 <style>
-   
+.makeCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+}
 </style>

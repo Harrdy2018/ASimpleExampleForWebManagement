@@ -3,14 +3,19 @@ import Home from '@/views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: '/',
+    name: 'Login',
+    component: () => import('@/views/Login.vue')
+  },
+  {
     path: '/home/:accountId',
     name: 'Home',
     component: Home
   },
   {
-    path: '/',
-    name: 'Login',
-    component: () => import('@/views/Login.vue')
+    path: '/user/register',
+    name: 'registerUser',
+    component: () => import('@/views/Register.vue')
   },
   {
     path: '/query/users',

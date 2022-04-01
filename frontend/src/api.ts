@@ -9,6 +9,7 @@ const api = {
   login: `${prefix}/user/login`,  // 登录
   queryLoginAccount: `${prefix}/loginAccount/query`,  // 查询登录账号
   logout: `${prefix}/user/logout`, // 登出
+  register: `${prefix}/user/register`, // 注册
   enums: `${prefix}/common/enums`, // 系统变量
   upload: `${prefix}/common/upload`, // 上传文件
   insertUser: `${prefix}/insertUser`, // 新增用户信息
