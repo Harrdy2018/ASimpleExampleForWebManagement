@@ -3,18 +3,49 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wangxiaomeng.mapper.AccountInfoMapper">
-    <select id="queryUserById" resultType="com.wangxiaomeng.model.AccountInfo">
+    <resultMap id="userResultMap" type="AccountInfo">
+        <result property="username" column="username"/>
+    </resultMap>
+
+    <select id="queryUserById" resultType="AccountInfo">
         select * from tb_account_info where id = #{id}
     </select>
 
-    <select id="queryUserByUsernameAndPassword" resultType="com.wangxiaomeng.model.AccountInfo">
+    <select id="queryUserByUsernameAndPassword" resultType="AccountInfo">
         select * from tb_account_info where username = #{username} and password = #{password}
     </select>
 
-    <insert id="addUser" parameterType="com.wangxiaomeng.model.AccountInfo">
+    <insert id="addUser" parameterType="AccountInfo">
         insert into tb_account_info
         (username, password, sex, email, introduce)
         values
         (#{username}, #{password}, #{sex}, #{email}, #{introduce})
     </insert>
+
+    <!--
+        uname=oppo% 以oppo开头的
+        uname=%o%   包含o的
+        uname=%qe   以qe结尾的
+    -->
+    <!--根据username查询的时候有多组数据-->
+    <select id="queryTestA" resultType="AccountInfo">
+        select * from tb_account_info where username like #{uname}
+    </select>
+    <!--传入实体类，根据username查询的时候有多组数据-->
+    <select id="queryTestB" resultType="AccountInfo">
+        select * from tb_account_info where username like #{username}
+    </select>
+    <!--传入Map，根据username查询的时候有多组数据-->
+    <select id="queryTestC" resultType="AccountInfo">
+        select * from tb_account_info where username like #{username}
+    </select>
+    <!--结果映射-->
+    <select id="queryTestD" resultMap="userResultMap">
+        select * from tb_account_info where username like #{username}
+    </select>
+
+    <!--Test Example-->
+    <select id="queryTest" resultType="AccountInfo">
+        select * from tb_account_info where username = #{username_t}
+    </select>
 </mapper>
