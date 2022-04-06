@@ -68,6 +68,13 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.9.8</version>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.10</version>
+      <!--只在编译阶段有效，不需要打入包中-->
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

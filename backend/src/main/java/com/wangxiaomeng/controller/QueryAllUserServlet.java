@@ -1,13 +1,11 @@
 package com.wangxiaomeng.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangxiaomeng.dao.UserDAO;
 import com.wangxiaomeng.model.Result;
 import com.wangxiaomeng.model.ResultCode;
 import com.wangxiaomeng.model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,10 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@Log4j2
 @WebServlet(value = "/queryAllUser")
 public class QueryAllUserServlet extends HttpServlet {
-    private static Logger logger = (Logger) LogManager.getLogger(QueryAllUserServlet.class.getName());
-
     private UserDAO userDAO;
 
     @Override
@@ -30,7 +27,7 @@ public class QueryAllUserServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.info("start QueryAllUserServlet");
+        log.info("start QueryAllUserServlet");
         Result result = null;
         if ("GET".equals(request.getMethod())) {
             List<User> users=userDAO.selectAllUser();
@@ -46,6 +43,6 @@ public class QueryAllUserServlet extends HttpServlet {
         // 使用jackson库进行序列化
         ObjectMapper objectMapper = new ObjectMapper();
         response.getWriter().write(objectMapper.writeValueAsString(result));
-        logger.info("end QueryAllUserServlet");
+        log.info("end QueryAllUserServlet");
     }
 }
