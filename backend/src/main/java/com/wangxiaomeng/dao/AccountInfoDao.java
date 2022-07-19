@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class AccountInfoDao {
     public void insertUser(String username, String password, int sex, String email, String introduce){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         accountInfoMapper.addUser(username, password, sex, email, introduce);
         sqlSession.commit();
@@ -20,7 +20,7 @@ public class AccountInfoDao {
     }
 
     public AccountInfo queryTest(String username){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         AccountInfo accountInfo = accountInfoMapper.queryTest(username);
         sqlSession.close();
@@ -28,7 +28,7 @@ public class AccountInfoDao {
     }
 
     public List<AccountInfo> queryTestA(String username){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         List<AccountInfo> accountInfo = accountInfoMapper.queryTestA(username);
         sqlSession.close();
@@ -36,7 +36,7 @@ public class AccountInfoDao {
     }
 
     public List<AccountInfo> queryTestB(String username){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         AccountInfo temp = new AccountInfo();
         temp.setUsername(username);
@@ -46,7 +46,7 @@ public class AccountInfoDao {
     }
 
     public List<AccountInfo> queryTestC(String username){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
@@ -56,7 +56,7 @@ public class AccountInfoDao {
     }
 
     public List<AccountInfo> queryTestD(String username){
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         List<AccountInfo> accountInfo = accountInfoMapper.queryTestA(username);
         sqlSession.close();
@@ -64,7 +64,7 @@ public class AccountInfoDao {
     }
 
     public AccountInfo queryUserById(int id) {
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         AccountInfo accountInfo = accountInfoMapper.queryUserById(id);
         sqlSession.close();
@@ -72,7 +72,7 @@ public class AccountInfoDao {
     }
 
     public AccountInfo queryUserByUsernameAndPassword(String username, String password) {
-        SqlSession sqlSession = MybatisUtils.getFactory().openSession();
+        SqlSession sqlSession = MybatisUtils.getSqlSession();
         AccountInfoMapper accountInfoMapper = sqlSession.getMapper(AccountInfoMapper.class);
         AccountInfo accountInfo = accountInfoMapper.queryUserByUsernameAndPassword(username, password);
         sqlSession.close();

@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/queryUserById")
 public class QueryUserByIdServlet extends HttpServlet {
-    private static Logger logger = (Logger) LogManager.getLogger(QueryUserByIdServlet.class.getName());
+    private static Logger logger = (Logger) LogManager.getLogger("runlog");
 
     private UserDAO userDAO;
 

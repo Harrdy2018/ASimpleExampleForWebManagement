@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/deleteUserById")
 public class DeleteUserByIdServlet extends HttpServlet{
-    private static Logger logger = (Logger) LogManager.getLogger(DeleteUserByIdServlet.class.getName());
+    private static Logger logger = (Logger) LogManager.getLogger("runlog");
 
     private UserDAO userDAO;
 

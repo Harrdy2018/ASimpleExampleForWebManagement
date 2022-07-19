@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class JDBCUtils {
-    private static Logger logger = (Logger) LogManager.getLogger(JDBCUtils.class.getName());
+    private static Logger logger = (Logger) LogManager.getLogger("initlog");
     private static String jdbcDriver;
     private static String jdbcURL;
     private static String jdbcUsername;

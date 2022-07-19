@@ -18,7 +18,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/insertUser")
 public class InsertUserServlet extends HttpServlet {
-    private static Logger logger = (Logger)LogManager.getLogger(InsertUserServlet.class.getName());
+    private static Logger logger = (Logger)LogManager.getLogger("runlog");
 
     private UserDAO userDAO;
 

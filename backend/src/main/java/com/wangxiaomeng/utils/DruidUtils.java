@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DruidUtils {
-    private static Logger logger = (Logger) LogManager.getLogger(DruidUtils.class.getName());
+    private static Logger logger = (Logger) LogManager.getLogger("initlog");
     private static Properties properties;
 
     // 加载数据库连接池

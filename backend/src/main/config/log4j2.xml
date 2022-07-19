@@ -9,7 +9,7 @@ PatternLayout:日志格式
 -->
 <configuration status="error">
     <Properties>
-        <Property name="LOG_HOME">${sys:catalina.home}/WebManageAppLogs</Property>
+        <Property name="LOG_HOME">${sys:catalina.home}/WebManageApp</Property>
     </Properties>
     <appenders>
         <Console name="console" target="SYSTEM_OUT">
@@ -23,24 +23,29 @@ PatternLayout:日志格式
         </File>
         <!--RollingFile表示循环的日志文件，意思是日志文件大于阀值的时候，就开始写一个新的日志文件-->
         <!--这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
-        <RollingFile name="rollingFile" fileName="${LOG_HOME}/app.log"
-                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="runLog" fileName="${LOG_HOME}/run/WebManageAppRun.log"
+                     filePattern="${LOG_HOME}/run/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} [%t] %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <SizeBasedTriggeringPolicy size="2MB"/>
+        </RollingFile>
+        <RollingFile name="initLog" fileName="${LOG_HOME}/init/WebManageAppInit.log"
+                     filePattern="${LOG_HOME}/init/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} [%t] %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="2MB"/>
         </RollingFile>
     </appenders>
     <loggers>
         <!--additivity开启的话，由于这个logger也是满足root的，所以会被打印两遍-->
-        <logger name="com.wangxiaomeng.utils.JDBCUtils" level="trace" additivity="false">
-            <appender-ref ref="rollingFile"/>
-            <appender-ref ref="console"/>
+        <logger name="runlog" level="debug" additivity="false">
+            <appender-ref ref="runLog"/>
+            <!--<appender-ref ref="console"/>-->
         </logger>
-        <logger name="com.wangxiaomeng.utils.DruidUtils" level="trace" additivity="false">
-            <appender-ref ref="rollingFile"/>
-            <appender-ref ref="console"/>
+        <!--初始化日志-->
+        <logger name="initlog" level="debug" additivity="false">
+            <AppenderRef ref="initLog"/>
         </logger>
         <root level="trace">
-            <appender-ref ref="rollingFile"/>
+            <appender-ref ref="console"/>
         </root>
     </loggers>
 </configuration>
