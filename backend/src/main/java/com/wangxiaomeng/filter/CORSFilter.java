@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "CORSFilter", value = "/*")
 public class CORSFilter implements Filter {
-    private static Logger logger = (Logger)LogManager.getLogger(CORSFilter.class.getName());
+    private static Logger logger = (Logger)LogManager.getLogger("initlog");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

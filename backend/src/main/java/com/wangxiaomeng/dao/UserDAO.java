@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private static Logger logger = (Logger) LogManager.getLogger(UserDAO.class.getName());
+    private static Logger logger = (Logger) LogManager.getLogger("runlog");
 
     // define sql statements
     private static final String INSERT_USERS_SQL="insert into users"+" (name, email, country) values "+" (?, ?, ?);";

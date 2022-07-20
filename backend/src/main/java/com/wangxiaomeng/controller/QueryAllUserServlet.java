@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Log4j2
+@Log4j2(topic = "runlog")
 @WebServlet(value = "/queryAllUser")
 public class QueryAllUserServlet extends HttpServlet {
     private UserDAO userDAO;

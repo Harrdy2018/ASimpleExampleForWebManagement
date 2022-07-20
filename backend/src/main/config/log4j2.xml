@@ -9,7 +9,7 @@ PatternLayout:日志格式
 -->
 <configuration status="error">
     <Properties>
-        <Property name="LOG_HOME">${sys:catalina.home}/WebManageApp</Property>
+        <Property name="LOG_HOME">${sys:catalina.home}/WebManageApp/logs</Property>
     </Properties>
     <appenders>
         <Console name="console" target="SYSTEM_OUT">
@@ -33,6 +33,11 @@ PatternLayout:日志格式
             <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} [%t] %-5level %class{36} %L %M - %msg%xEx%n"/>
             <SizeBasedTriggeringPolicy size="2MB"/>
         </RollingFile>
+        <RollingFile name="innerDebug" fileName="${LOG_HOME}/system/innerDebug.log"
+                     filePattern="${LOG_HOME}/system/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss z} [%t] %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <SizeBasedTriggeringPolicy size="2MB"/>
+        </RollingFile>
     </appenders>
     <loggers>
         <!--additivity开启的话，由于这个logger也是满足root的，所以会被打印两遍-->
@@ -44,8 +49,11 @@ PatternLayout:日志格式
         <logger name="initlog" level="debug" additivity="false">
             <AppenderRef ref="initLog"/>
         </logger>
-        <root level="trace">
-            <appender-ref ref="console"/>
+<!--        <root level="trace">-->
+<!--            <appender-ref ref="console"/>-->
+<!--        </root>-->
+        <root level="debug">
+            <appender-ref ref="innerDebug"/>
         </root>
     </loggers>
 </configuration>
