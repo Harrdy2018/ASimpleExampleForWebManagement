@@ -4,7 +4,14 @@ import Home from '@/views/Home.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Login',
+    redirect: '/index.html'
+    // 此处如果不用重定向的话,路由的名字要不一样
+    // name: 'Login1'
+    // component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/index.html',
+    name: 'Login2',
     component: () => import('@/views/Login.vue')
   },
   {

@@ -92,13 +92,6 @@ taskkill -F /PID 3356
 # 启动服务
 net start mysql
 ```
-* centos
-```sh
-# l 表示监听 n 表示不解析域名 t 表示tcp p 表示进程ID
-[root@ECS ~]# netstat -lntp
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp6       0      0 :::8080                 :::*                    LISTEN      20745/java
-```
 ## ```sql```相关
 ```sql
 2、查看整个表的结构
@@ -144,4 +137,35 @@ create table `tb_account_info`(
     `email` varchar(20) default null comment '用户邮箱',
     `introduce` varchar(500) default null comment '用户简单介绍',
     primary key(`id`)) engine=InnoDB auto_increment=1000 default charset=utf8 comment='这是登录用户信息表';
+```
+### ```centos```命令相关
+```sh
+# l 表示监听 n 表示不解析域名 t 表示tcp p 表示进程ID
+[root@ECS ~]# netstat -lntp
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp6       0      0 :::8080                 :::*                    LISTEN      20745/java
+
+# 查看ssh服务 可以看到进程
+[root@ECS ~]# systemctl status sshd.service
+[root@ECS ~]# ps -aux | grep 7508
+root      7508  0.0  0.2 112940  4296 ?        Ss   22:10   0:00 /usr/sbin/sshd -D
+# 根据进程查看端口号
+[root@ECS ~]# netstat -anp | grep 7508
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      7508/sshd
+# 修改ssh连接时间(配置文件)
+[root@ECS ssh]# cat /etc/ssh/sshd_config | grep Client
+ClientAliveInterval 600 # 单位秒 指定了服务器端向客户端请求消息的时间间隔, 默认是0, 不发送
+ClientAliveCountMax 6 # 表示服务器发出请求后客户端没有响应的次数达到一定值, 就自动断开. 正常情况下, 客户端不会不响应
+# 重启服务
+[root@ECS ~]# systemctl restart sshd.service
+
+# 查看cpu核数
+[root@ECS nginx]# cat /proc/cpuinfo | grep -E --regexp="cores" | uniq
+
+# nginx设置日志打印格式
+[root@ECS nginx]# cat nginx.conf | grep -A 4 "log_format"
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log  /etc/nginx/logs/access.log  main;
 ```
